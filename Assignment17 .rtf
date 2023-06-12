@@ -1,0 +1,174 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang2057{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\ul\b\f0\fs32\lang9 Assignment: Query Builder in Larave\par
+\par
+
+\pard\sa200\sl276\slmult1\ulnone\fs28 1.Explain what Laravel's query builder is and how it provides a simple and elegant way to interact with databases.\par
+Answer: \b0\par
+\fs22 Here are some key features and benefits of Laravel's query builder:\par
+\par
+\ul Fluent Interface: \ulnone The query builder utilizes a fluent interface, allowing you to chain methods together to construct queries. This approach results in more readable and concise code compared to writing raw SQL statements.\par
+\par
+\ul Database Agnostic\ulnone : Laravel's query builder supports multiple database systems, including MySQL, PostgreSQL, SQLite, and SQL Server. This means you can write queries that work across different database platforms without worrying about specific syntax or implementation details.\par
+\par
+\ul Parameter Binding\ulnone : The query builder automatically handles parameter binding, which helps prevent SQL injection attacks. You can safely pass user input as query parameters, and the builder will handle escaping and sanitizing them.\par
+\par
+\ul Query Building Methods\ulnone : The query builder provides a rich set of methods for constructing various types of queries. You can easily perform common operations like selecting columns, filtering rows with conditions, joining tables, sorting results, grouping data, and more.\par
+\par
+\ul Eloquent Integration\ulnone : Laravel's query builder seamlessly integrates with Laravel's Eloquent ORM (Object-Relational Mapping) system. Eloquent provides an active record implementation, allowing you to map database tables to model classes and interact with them using expressive, object-oriented syntax.\par
+\par
+\ul Pagination and Eager Loading\ulnone : The query builder includes convenient methods for paginating query results and eager loading relationships between models. These features enhance performance by retrieving data efficiently and reducing the number of database queries.\par
+\par
+Overall, Laravel's query builder simplifies database interactions by offering an elegant and consistent API. It abstracts away the complexities of SQL, promotes code readability, and provides a flexible and database-agnostic solution for querying and manipulating data.\par
+\b\fs28 2.Write the code to retrieve the "excerpt" and "description" columns from the "posts" table using Laravel's query builder. Store the result in the $posts variable. Print the $posts variable.\par
+\b0\fs22 use Illuminate\\Support\\Facades\\DB;\par
+\par
+$posts = DB::table('posts')\par
+    ->select('excerpt', 'description')\par
+    ->get();\par
+\par
+print_r($posts);\b\par
+\fs28 3.Describe the purpose of the distinct() method in Laravel's query builder. How is it used in conjunction with the select() method?\par
+\b0\fs22 use Illuminate\\Support\\Facades\\DB;\par
+\par
+$distinctPosts = DB::table('posts')\par
+    ->select('category')\par
+    ->distinct()\par
+    ->get();\par
+$distinctPosts = DB::table('posts')\par
+    ->select('category')\par
+    ->distinct()\par
+    ->where('published', true)\par
+    ->orderBy('created_at', 'desc')\par
+    ->get();\par
+\b\fs28\par
+4.Write the code to retrieve the first record from the "posts" table where the "id" is 2 using Laravel's query builder. Store the result in the $posts variable. Print the "description" column of the $posts variable.\par
+\b0\fs22 use Illuminate\\Support\\Facades\\DB;\par
+$posts = DB::table('posts')\par
+    ->where('id', 2)\par
+    ->first();\par
+if ($posts) \{\par
+    echo $posts->description;\par
+\}\b\par
+\fs28 5.Write the code to retrieve the "description" column from the "posts" table where the "id" is 2 using Laravel's query builder. Store the result in the $posts variable. Print the $posts variable.\par
+\b0\fs22 use Illuminate\\Support\\Facades\\DB;\par
+$posts = DB::table('posts')\par
+    ->where('id', 2)\par
+    ->pluck('description');\par
+print_r($posts);\b\par
+\fs28 6.Explain the difference between the first() and find() methods in Laravel's query builder. How are they used to retrieve single records?\par
+\b0\fs22 The first() and find() methods in Laravel's query builder are both used to retrieve single records from a database table, but they differ in their approach and usage.\par
+\b first() method:\b0\par
+The first() method retrieves the first record that matches the query conditions.\par
+It returns a single object representing the first row found.\par
+It is typically used when you need to retrieve the first record that satisfies certain conditions or when you don't need to specify the specific primary key value.\par
+Example usage:\par
+$post = DB::table('posts')\par
+            ->where('published', true)\par
+            ->orderBy('created_at')\par
+            ->first();\par
+\b find() method:\b0\par
+The find() method retrieves a record by its primary key value.\par
+It assumes that the primary key column in the table is named id (though you can customize it).\par
+It returns a single object representing the row with the matching primary key value.\par
+It is commonly used when you want to retrieve a specific record by its primary key value.\par
+Example usage:\par
+$post = DB::table('posts')->find(1);\par
+Here's a summary of the main differences between first() and find():\par
+first() is used to retrieve the first record that matches the query conditions, while find() is used to retrieve a record by its primary key value.\par
+first() requires specifying the query conditions using methods like where(), orderBy(), etc., whereas find() only requires passing the primary key value as an argument.\par
+first() returns the first matching record as an object, while find() returns the record with the specified primary key value as an object.\par
+first() is useful when you need to retrieve the first record that satisfies certain conditions or when you want to specify custom query conditions. find() is useful when you know the primary key value of the record you want to retrieve.\par
+Both methods return null if no matching record is found.\b\par
+\fs28 7.Write the code to retrieve the "title" column from the "posts" table using Laravel's query builder. Store the result in the $posts variable. Print the $posts variable.\par
+\b0\fs24 use Illuminate\\Support\\Facades\\DB;\par
+$posts = DB::table('posts')\par
+    ->pluck('title');\par
+print_r($posts);\b\par
+\fs28 8.Write the code to insert a new record into the "posts" table using Laravel's query builder. Set the "title" and "slug" columns to 'X', and the "excerpt" and "description" columns to 'excerpt' and 'description', respectively. Set the "is_published" column to true and the "min_to_read" column to 2. Print the result of the insert operation.\par
+\b0\fs24 use Illuminate\\Support\\Facades\\DB;\par
+$result = DB::table('posts')->insert([\par
+    'title' => 'X',\par
+    'slug' => 'X',\par
+    'excerpt' => 'excerpt',\par
+    'description' => 'description',\par
+    'is_published' => true,\par
+    'min_to_read' => 2,\par
+]);\par
+print_r($result);\b\par
+\fs28 9.Write the code to update the "excerpt" and "description" columns of the record with the "id" of 2 in the "posts" table using Laravel's query builder. Set the new values to 'Laravel 10'. Print the number of affected rows.\par
+\b0\fs24 use Illuminate\\Support\\Facades\\DB;\par
+$affectedRows = DB::table('posts')\par
+    ->where('id', 2)\par
+    ->update([\par
+        'excerpt' => 'Laravel 10',\par
+        'description' => 'Laravel 10',\par
+    ]);\par
+echo $affectedRows;\b\par
+\fs28 10.Write the code to delete the record with the "id" of 3 from the "posts" table using Laravel's query builder. Print the number of affected rows.\par
+\b0\fs24 use Illuminate\\Support\\Facades\\DB;\par
+$affectedRows = DB::table('posts')\par
+    ->where('id', 3)\par
+    ->delete();\par
+echo $affectedRows;\b\par
+\fs28 11.Explain the purpose and usage of the aggregate methods count(), sum(), avg(), max(), and min() in Laravel's query builder. Provide an example of each.\par
+\b0\fs24 Here's a brief explanation of each aggregate method and an example of its usage:\par
+\par
+\b count():\par
+\b0\par
+The count() method returns the number of rows that match the query conditions or the total number of rows in a table.\par
+Example usage:\par
+use Illuminate\\Support\\Facades\\DB;\par
+$count = DB::table('users')->count();\par
+\par
+\b sum():\b0\par
+The sum() method calculates the sum of the values in a column.\par
+Example usage:\par
+use Illuminate\\Support\\Facades\\DB;\par
+$totalAmount = DB::table('orders')->sum('amount');\par
+\b avg():\b0\par
+The avg() method calculates the average value of the values in a column.\par
+Example usage:\par
+use Illuminate\\Support\\Facades\\DB;\par
+$averagePrice = DB::table('products')->avg('price');\par
+\b max():\b0\par
+The max() method returns the maximum value from a column.\par
+Example usage:\par
+use Illuminate\\Support\\Facades\\DB;\par
+$highestScore = DB::table('scores')->max('score');\par
+\b min():\b0\par
+The min() method returns the minimum value from a column.\par
+Example usage:\par
+use Illuminate\\Support\\Facades\\DB;\par
+$lowestPrice = DB::table('products')->min('price');\b\par
+\fs28 12.Describe how the whereNot() method is used in Laravel's query builder. Provide an example of its usage.\par
+\b0\fs24 whereNot($column, $value)\par
+$users = DB::table('users')\par
+            ->whereNot('status', 'inactive')\par
+            ->get();\par
+\par
+$users = DB::table('users')\par
+            ->whereNot('status', 'inactive')\par
+            ->whereNot('role', 'admin')\par
+            ->get();\b\par
+\fs28 13.Explain the difference between the exists() and doesntExist() methods in Laravel's query builder. How are they used to check the existence of records?\par
+\b0\fs24 exists()\par
+$hasActiveUsers = DB::table('users')\par
+                    ->where('status', 'active')\par
+                    ->exists();\par
+doesntExist()\par
+$noInactiveUsers = DB::table('users')\par
+                    ->where('status', 'inactive')\par
+                    ->doesntExist();\b\par
+\fs28 14.Write the code to retrieve records from the "posts" table where the "min_to_read" column is between 1 and 5 using Laravel's query builder. Store the result in the $posts variable. Print the $posts variable.\par
+\b0\fs24 $posts = DB::table('posts')\par
+            ->whereBetween('min_to_read', [1, 5])\par
+            ->get();\par
+print_r($posts);\b\par
+\fs28 15.Write the code to increment the "min_to_read" column value of the record with the "id" of 3 in the "posts" table by 1 using Laravel's query builder. Print the number of affected rows.\par
+\b0\fs24 $affectedRows = DB::table('posts')\par
+                ->where('id', 3)\par
+                ->increment('min_to_read');\par
+echo "Number of affected rows: " . $affectedRows;\b\par
+}
+ 
